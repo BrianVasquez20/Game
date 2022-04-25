@@ -29,10 +29,12 @@ GamePlayManager = {
         game.load.image('booble1', 'assets/images/booble1.png');
         game.load.image('booble2', 'assets/images/booble2.png');
 
-        
+        game.load.audio('backgroundSound', ['assets/sounds/underseamusic.mp3']);
     },
     create: function() {
 
+        music = game.add.audio('backgroundSound');
+        
     	
         game.add.sprite(0, 0, 'background');
         this.boobleArray = [];
@@ -123,7 +125,7 @@ GamePlayManager = {
         this.clickText.anchor.setTo(0.5);
 
 
-        this.totalTime = 20;
+        this.totalTime = 60;
         this.timerText = game.add.text(1000, 40, this.totalTime + 's', styleTimer);
         this.timerText.anchor.setTo(0.5);
 
@@ -135,6 +137,7 @@ GamePlayManager = {
         			this.showFinalMessage('GAMER OVER :(');
         			this.endGame = true;
         			game.time.events.remove(this.timerGameOver);
+                    music.stop();
         		}
         	}
         }, this);
@@ -157,6 +160,7 @@ GamePlayManager = {
 
     		this.endGame = true;
     		game.time.events.remove(this.timerGameOver);
+            music.stop();
     	}
     },
     showFinalMessage: function(msg){
@@ -181,6 +185,7 @@ GamePlayManager = {
 
     onTap:function(){
     	if (!this.flagFirstMouseDown) {
+            music.play();
     		this.clickText.destroy();
     		this.tweenJellyfish = game.add.tween(this.jellyfish.position).to({
     			y: -0.001}, 5800, Phaser.Easing.Cubic.InOut, true, 0, 1000, true).loop(true);
